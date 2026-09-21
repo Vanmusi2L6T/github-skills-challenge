@@ -108,3 +108,49 @@ tests/test_aiops_pipeline.py .                                [100%]
 - [x] **5. Event Consumed:** `EventConsumer` retrieved all 2 events from the shared `EventTopic("anomaly-events")`.
 - [x] **6. Event Processed Successfully:** End-to-end traversal completed without loss or error.
 - [x] **7. Final Output Verification:** Correctly reported resource exhaustion (high CPU/memory/latency) and database connection timeout anomalies.
+
+task 7 
+# AIOps Assessment Solution
+
+## 1. AIOps Scenario
+The system monitors a `payment-service` microservice to automatically detect degradation, resource exhaustion, and operational failures from telemetry logs and metrics, routing detected anomaly events downstream.
+
+## 2. Operational Data Description
+The telemetry in `data/service_data.json` contains 10 JSON records tracking service name (`payment-service`), timestamp, latency (`response_time_ms`), CPU/memory utilization percentages, log levels (`INFO`/`ERROR`), and log messages.
+
+## 3. Logs and Metrics Observations
+- **Normal Baseline:** 8 records show response times < 300ms, CPU & memory usage < 60%, and `INFO` log status.
+- **Resource Spike:** 1 record exhibits 1250ms latency, 89% CPU, 92% memory, and an `ERROR` log indicating high latency.
+- **Service Timeout:** 1 record shows normal metrics but records an `ERROR` log due to a database connection pool timeout.
+
+## 4. Anomaly Detection Findings
+- **Detected Anomalies:** 2
+- **False Positives:** 0 (normal baseline records were correctly categorized).
+- **False Negatives:** 0 (all threshold violations and `ERROR` logs were successfully flagged).
+
+## 5. Event Processing Flow
+1. **Ingestion:** Operational data loaded from JSON.
+2. **Detection:** `AnomalyDetector` identifies anomalous records based on thresholds and error logs.
+3. **Publishing:** `EventProducer` wraps anomalies into events and sends them to `EventTopic("anomaly-events")`.
+4. **Consumption:** `EventConsumer` polls `EventTopic` and retrieves the events for downstream processing.
+
+## 6. Final Workflow Execution Result
+- **Records Processed:** 10
+- **Anomalies Detected:** 2
+- **Events Consumed:** 2
+- **Output Verification:** Successfully output events for resource exhaustion (high CPU/memory/latency) and DB connection pool timeout.
+
+## 7. Identified and Corrected Issues
+1. **Module Imports:** Fixed relative/bare imports in `src/aiops_pipeline.py` by configuring module execution with `PYTHONPATH=src`.
+2. **Topic Name Mismatch:** Unified topic names so both producer and consumer use `"anomaly-events"`.
+3. **Isolated Topic Instances:** Passed a single shared `EventTopic` object to both `EventProducer` and `EventConsumer`.
+
+## 8. Limitations & Improvement Opportunities
+- **Limitation:** Static thresholding cannot adapt to seasonal traffic variations or detect gradual performance drift.
+- **Improvement:** Implement dynamic thresholding (e.g., rolling-window standard deviations) or machine learning models (e.g., Isolation Forests).
+
+## 9. Steps to Reproduce
+1. Open the terminal at the repository root.
+2. Run automated unit tests:
+   ```bash
+   PYTHONPATH=src python -m pytest
