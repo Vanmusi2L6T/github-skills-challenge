@@ -50,3 +50,29 @@ The purpose of AIOps in this assessment is to automatically ingest telemetry and
 * High latency spikes (`response_time_ms` > 1000ms).
 * Elevated resource consumption (`cpu_utilization` > 85%, `memory_utilization` > 85%).
 * `log_level` set to `WARN` or `ERROR` with failure descriptions (e.g., connection timeouts, database errors, memory warnings).
+
+## Task 3: Anomaly Detection Analysis
+
+### Detected Anomalies
+1. **High Latency & Resource Spike**
+   * **Metrics:** Response time > 1000ms, CPU > 85%, Memory > 85%.
+   * **Log:** `ERROR` - High latency and resource exhaustion detected during transaction processing.
+2. **Database Timeout Failure**
+   * **Metrics:** Normal/moderate metrics.
+   * **Log:** `ERROR` - Database connection pool timeout during billing execution.
+
+### Accuracy Assessment
+* **Missed Anomalies:** None. All records violating static thresholds or emitting `ERROR` logs were captured.
+* **False Positives:** None. Routine `INFO` entries with baseline metrics were correctly classified as normal.
+
+### Limitations & Improvements
+* **Limitation:** Static thresholding fails to detect subtle multi-metric drift or dynamic load spikes.
+* **Improvement:** Implement dynamic thresholding (e.g., moving-window standard deviation) or isolation forests to detect contextual anomalies automatically.
+
+these are findings for task 3
+======================== test session starts =========================
+collected 1 item (or more)
+
+tests/test_aiops_pipeline.py .                                [100%]
+
+========================= 1 passed in 0.05s =========================
