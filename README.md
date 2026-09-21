@@ -26,3 +26,27 @@ The operational problem being addressed is detecting service degradation and run
 
 ### Purpose of AIOps
 The purpose of AIOps in this assessment is to automatically ingest telemetry and operational data, detect anomalous patterns and threshold violations, publish corresponding events to event topics, and route them through an automated processing pipeline for rapid incident response and operational monitoring.
+
+## Operational Data Analysis
+
+### 1. Metric Fields
+* `response_time_ms`: Measures request latency in milliseconds.
+* `cpu_utilization`: Measures CPU usage percentage.
+* `memory_utilization`: Measures memory usage percentage.
+
+### 2. Log Fields
+* `log_level`: Categorizes message severity (`INFO`, `WARN`, `ERROR`).
+* `log_message`: Descriptive text recording operational state or failures.
+
+### 3. Timestamp Usage
+* `timestamp`: ISO-8601 formatted datetime string used to sequentially order events, align metric observations with corresponding log messages, and identify temporal patterns or anomalies over time.
+
+### 4. Normal Observations
+* Low latency (`response_time_ms` ~100–250ms).
+* Moderate resource utilization (`cpu_utilization` < 70%, `memory_utilization` < 75%).
+* `log_level` set to `INFO` with routine success messages (e.g., successful transaction processing).
+
+### 5. Unusual / Anomalous Observations
+* High latency spikes (`response_time_ms` > 1000ms).
+* Elevated resource consumption (`cpu_utilization` > 85%, `memory_utilization` > 85%).
+* `log_level` set to `WARN` or `ERROR` with failure descriptions (e.g., connection timeouts, database errors, memory warnings).
