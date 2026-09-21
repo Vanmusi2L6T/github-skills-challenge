@@ -1,0 +1,19 @@
+[1mdiff --git a/README.md b/README.md[m
+[1mindex 9165874..53c649b 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -16,3 +16,13 @@[m [mGood luck![m
+ [m
+ &copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)[m
+ [m
+[32m+[m[32m## AIOps Assessment Scenario[m
+[32m+[m
+[32m+[m[32m### Monitored Service[m
+[32m+[m[32mThe monitored service is a **payment-service** that processes payment transactions and handles user billing operations.[m
+[32m+[m
+[32m+[m[32m### Operational Problem[m
+[32m+[m[32mThe operational problem being addressed is detecting service degradation and runtime failures—specifically slow response times, high CPU/memory utilization, and critical error conditions such as database or service timeouts.[m
+[32m+[m
+[32m+[m[32m### Purpose of AIOps[m
+[32m+[m[32mThe purpose of AIOps in this assessment is to automatically ingest telemetry and operational data, detect anomalous patterns and threshold violations, publish corresponding events to event topics, and route them through an automated processing pipeline for rapid incident response and operational monitoring.[m
+\ No newline at end of file[m
