@@ -76,3 +76,24 @@ collected 1 item (or more)
 tests/test_aiops_pipeline.py .                                [100%]
 
 ========================= 1 passed in 0.05s =========================
+
+
+## Task 5: Workflow Investigation and Corrections
+
+### Problem 1: Broken Module Imports
+* **Component Affected:** `src/aiops_pipeline.py`
+* **Cause:** Bare imports (`from anomaly_detector import AnomalyDetector`) caused `ModuleNotFoundError` when executing as a module from the root directory.
+* **Correction:** Updated imports to use package paths or set `PYTHONPATH=src` during module execution.
+* **Verification:** Execution via `PYTHONPATH=src python -m src.aiops_pipeline` runs without import errors.
+
+### Problem 2: Event Topic Name Mismatch
+* **Component Affected:** `EventProducer` and `EventConsumer` in `src/aiops_pipeline.py`
+* **Cause:** The producer published events to `"service-events"` while the consumer was listening on `"anomaly-events"`.
+* **Correction:** Updated both producer and consumer to use the unified `"anomaly-events"` topic name.
+* **Verification:** Both components interact with the same topic stream.
+
+### Problem 3: Disconnected Event Topic Instances
+* **Component Affected:** `EventTopic` in `src/aiops_pipeline.py`
+* **Cause:** `producer` and `consumer` were instantiated with separate `EventTopic` objects, keeping events isolated in separate memory queues.
+* **Correction:** Created a single shared `EventTopic("anomaly-events")` instance and passed it to both `EventProducer` and `EventConsumer`.
+* **Verification:** Terminal execution confirms `Anomalies detected: 2` and `Events consumed: 2`.
