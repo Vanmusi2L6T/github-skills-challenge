@@ -97,3 +97,14 @@ tests/test_aiops_pipeline.py .                                [100%]
 * **Cause:** `producer` and `consumer` were instantiated with separate `EventTopic` objects, keeping events isolated in separate memory queues.
 * **Correction:** Created a single shared `EventTopic("anomaly-events")` instance and passed it to both `EventProducer` and `EventConsumer`.
 * **Verification:** Terminal execution confirms `Anomalies detected: 2` and `Events consumed: 2`.
+
+## Task 6: End-to-End Pipeline Execution
+
+### Workflow Verification Checklist
+- [x] **1. Operational Data Processed:** Read 10 operational telemetry records from `data/service_data.json`.
+- [x] **2. Anomalous Behavior Detected:** Identified 2 records violating threshold & error condition rules.
+- [x] **3. Anomaly Event Generated:** Structured event payload created with service metadata and violation reasons.
+- [x] **4. Event Published:** `EventProducer` successfully published events to the topic.
+- [x] **5. Event Consumed:** `EventConsumer` retrieved all 2 events from the shared `EventTopic("anomaly-events")`.
+- [x] **6. Event Processed Successfully:** End-to-end traversal completed without loss or error.
+- [x] **7. Final Output Verification:** Correctly reported resource exhaustion (high CPU/memory/latency) and database connection timeout anomalies.
